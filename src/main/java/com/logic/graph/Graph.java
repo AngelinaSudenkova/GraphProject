@@ -61,7 +61,7 @@ public class Graph {
             adjList.get(source).add(node1);
     }
 
-    void genEdges(){
+   public void genEdges(){
         int lastNode = columns - 1;
         for ( int i = 0; i < numberOfVertexes - columns ; i++){
             if ( i == lastNode){
