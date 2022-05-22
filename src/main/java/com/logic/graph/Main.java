@@ -1,18 +1,17 @@
 package com.logic.graph;
 
+import java.util.Random;
+
 public class Main {
 
     public static void main( String [] args){
 
-        Graph graph = new Graph(6 );
-        graph.addEdge(0,1);
-        graph.addEdge(0,4);
-        graph.addEdge(1, 2);
-        graph.addEdge(1,3);
-        graph.addEdge(1,4);
-        graph.addEdge(2,3);
-        graph.addEdge(3,4);
-        graph.addEdge(0,5);
-         graph.printGraph(graph);
+//        Graph graph = new Graph(2,3, -2, 0 );
+//        graph.genEdges();
+//        graph.printGraph(graph);
+
+        Graph graph = new GraphReader("D:\\Studia\\SEM2\\JIMP2\\projektJAVA\\FinalProject\\src\\main\\java\\com\\logic\\graph\\graph").readGraph();
+        System.out.println(graph.getColumns() + " " + graph.getRows());
+        graph.printGraph(graph);
     }
 }
