@@ -11,9 +11,9 @@ class Dijkstra {
         this.source = source;
         this.distance = new double[graph.numberOfVertexes];
         this.previous = new int[graph.numberOfVertexes];
-        findPath(source);
+        calculate(source);
     }
-    public double[] findPath(int source){
+    public void calculate(int source){
         int[] previous = new int[graph.numberOfVertexes];
         for(int i = 0; i< graph.numberOfVertexes;i++ ){
             previous[i] = -1;
@@ -51,6 +51,5 @@ class Dijkstra {
         }
         this.distance = distance;
         this.previous = previous;
-        return distance;
     }
 }
