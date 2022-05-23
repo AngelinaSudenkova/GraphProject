@@ -44,6 +44,7 @@ public class GraphReader  {
                             node = parseInt(tokens[i]);
                             i++;
                             weight = parseDouble(tokens[i]);
+
                         //System.out.println("IM A TOKEN : " + tokens[i]);
                         graph.addEdgeFromFile(count,node,weight);
                     }
