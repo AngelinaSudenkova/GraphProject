@@ -87,12 +87,7 @@ public class Graph {
             addEdge(i,i+1);
         }
     }
-    public Node getNode(int nodeNum){
-        int cols = this.adjList.get(0).size();
-        int row = nodeNum/cols;
-        int col = nodeNum %(row*cols);
-        return this.adjList.get(row).get(col);
-    }
+
     public void printGraph(Graph graph)
     {
         for (int i = 0; i < graph.numberOfVertexes; i++) {
@@ -112,13 +107,7 @@ public class Graph {
         }
         return nodesNums;
     }
-    public double[] getNeighboursWeights(int nodeNum){
-        double[] nodesWeights = new double[adjList.get(nodeNum).size()];
-        for(int i = 0; i < adjList.get(nodeNum).size();i++){
-            nodesWeights[i] = adjList.get(nodeNum).get(i).weight;
-        }
-        return nodesWeights;
-    }
+
     public int getNumberOfVertexes() {
         return numberOfVertexes;
     }

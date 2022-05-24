@@ -52,4 +52,27 @@ class Dijkstra {
         this.distance = distance;
         this.previous = previous;
     }
+    public int[] reconstructPath(int start, int end){
+        ArrayList<Integer> path = new ArrayList<>(graph.numberOfVertexes);
+
+        int at = end;
+        while(at != -1){
+            path.add(at);
+            at = previous[at];
+        }
+        int[] output = new int[path.size()];
+        for(int i = 0; i<path.size()-1;i++){
+            output[path.size()-1-i] = path.get(i);
+        }
+        return output;
+    }
+    public void drawPath(int start, int end){
+        int[] path = reconstructPath( start, end);
+        for(int i = 0; i<path.length;i++){
+            System.out.print(path[i]);
+            if(i != path.length-1)
+                System.out.print(" => ");
+        }
+        
+    }
 }
