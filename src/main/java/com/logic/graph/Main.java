@@ -15,6 +15,7 @@ public class Main {
             System.out.println("Graf nie jest spójny");
         }
         Dijkstra dijkstra = new Dijkstra(graph);
-        dijkstra.drawPath(10,2);
+        dijkstra.drawPath(2,8);
+
     }
 }
