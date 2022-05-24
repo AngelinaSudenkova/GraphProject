@@ -1,17 +1,20 @@
 package com.logic.graph;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main( String [] args){
 
-//        Graph graph = new Graph(2,3, -2, 0 );
-//        graph.genEdges();
-//        graph.printGraph(graph);
-
-        Graph graph = new GraphReader("D:\\Studia\\SEM2\\JIMP2\\projektJAVA\\FinalProject\\src\\main\\java\\com\\logic\\graph\\graph").readGraph();
-        System.out.println(graph.getColumns() + " " + graph.getRows());
-        graph.printGraph(graph);
+        Graph graph = new Graph(3,3, 3, 10 );
+        Bfs bfs = new Bfs(graph,0);
+        if(bfs.isStronglyConnected){
+            System.out.println("Graf jest spójny");
+        }
+        else {
+            System.out.println("Graf nie jest spójny");
+        }
+        Dijkstra dijkstra = new Dijkstra(graph);
+        dijkstra.drawPath(10,2);
     }
 }
