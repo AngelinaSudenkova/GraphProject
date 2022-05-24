@@ -4,10 +4,10 @@ import java.util.Random;
 import  java.math.*;
 
 public class Node {
-    int numberOfN;
-    double weight;
-    double min;
-    double max;
+    public int numberOfN;
+    public double weight;
+    public double min;
+    public double max;
 
     Random random = new Random();
 
