@@ -6,12 +6,10 @@ class Dijkstra {
     double[] distance;
     int[] previous;
 
-    Dijkstra(Graph graph,int source){
+    Dijkstra(Graph graph){
         this.graph = graph;
-        this.source = source;
         this.distance = new double[graph.numberOfVertexes];
         this.previous = new int[graph.numberOfVertexes];
-        calculate(source);
     }
     public void calculate(int source){
         int[] previous = new int[graph.numberOfVertexes];
@@ -28,7 +26,7 @@ class Dijkstra {
             visited[i] = false;
         }
         PriorityQueue<Node> pq = new PriorityQueue(new NodeComparator());
-        Node startNode = new Node(0,0);
+        Node startNode = new Node(source,0);
         pq.add(startNode);
         while(!pq.isEmpty()){
             Node currentNode = pq.poll();
@@ -54,7 +52,6 @@ class Dijkstra {
     }
     public int[] reconstructPath(int start, int end){
         ArrayList<Integer> path = new ArrayList<>(graph.numberOfVertexes);
-
         int at = end;
         while(at != -1){
             path.add(at);
@@ -62,11 +59,20 @@ class Dijkstra {
         }
         int[] output = new int[path.size()];
         for(int i = 0; i<path.size()-1;i++){
+            if(path.get(i) == start)
+                break;
             output[path.size()-1-i] = path.get(i);
         }
+        output[0] = start;
         return output;
     }
     public void drawPath(int start, int end){
+        if(start >= graph.numberOfVertexes || start <0 || end<0 || end >= graph.numberOfVertexes){
+            System.out.println("Podano nieprawidłowy węzeł początkowy");
+            return;
+        }
+        this.source = start;
+        calculate(start);
         int[] path = reconstructPath( start, end);
         System.out.println("Koszt drogi to "+ getCost(end)+" a jej przebieg od "+start+" do "+end + " to:");
         System.out.print("\t\t\t\t\t");
@@ -75,7 +81,7 @@ class Dijkstra {
             if(i != path.length-1)
                 System.out.print(" => ");
         }
-        
+
     }
     public double getCost(int nodeNum){
         return distance[nodeNum];
