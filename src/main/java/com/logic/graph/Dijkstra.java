@@ -68,11 +68,16 @@ class Dijkstra {
     }
     public void drawPath(int start, int end){
         int[] path = reconstructPath( start, end);
+        System.out.println("Koszt drogi to "+ getCost(end)+" a jej przebieg od "+start+" do "+end + " to:");
+        System.out.print("\t\t\t\t\t");
         for(int i = 0; i<path.length;i++){
             System.out.print(path[i]);
             if(i != path.length-1)
                 System.out.print(" => ");
         }
         
+    }
+    public double getCost(int nodeNum){
+        return distance[nodeNum];
     }
 }
