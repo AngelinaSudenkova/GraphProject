@@ -61,7 +61,6 @@ public class GraphController implements Initializable {
         double max = parseDouble(maxWeight.getText());
         double min = parseDouble(minWeight.getText());
         Graph graph = new Graph(rows, columns,min,max);
-        graph.genEdges();
         graph.printGraph(graph);
     }
     @Override
