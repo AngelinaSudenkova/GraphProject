@@ -3,8 +3,12 @@ package com.logic.graph;
 import java.util.Random;
 
 public class Node {
-    int numberOfN;
-    double weight;
+    public int numberOfN;
+    public double weight;
+    public double min;
+    public double max;
+
+
     Random random = new Random();
 
     public Node(int numberOfN ) {
