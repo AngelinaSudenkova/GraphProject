@@ -1,7 +1,6 @@
 package com.logic.graph;
 
 import java.util.Random;
-import  java.math.*;
 
 public class Node {
     public int numberOfN;
@@ -9,16 +8,16 @@ public class Node {
     public double min;
     public double max;
 
+
     Random random = new Random();
 
     public Node(int numberOfN ) {
         this.numberOfN = numberOfN;
         this.weight = random.nextDouble();
     }
+
     public Node(int numberOfN, double min,double max ) {
         this.numberOfN = numberOfN;
-        this.min = min;
-        this.max = max;
         this.weight = min + (max - min) * random.nextDouble();
     }
 

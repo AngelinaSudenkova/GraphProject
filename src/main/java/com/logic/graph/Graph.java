@@ -1,7 +1,6 @@
 package com.logic.graph;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Graph {
 
@@ -12,17 +11,6 @@ public class Graph {
     public double max;
 
     ArrayList<ArrayList<Node>> adjList;
-
-    public Graph(int numberOfVertexes) {
-        this.numberOfVertexes = numberOfVertexes;
-        adjList = new ArrayList<ArrayList<Node>>(numberOfVertexes);
-        for(int i = 0; i < numberOfVertexes; i++){
-            adjList.add(new ArrayList<Node>());
-        }
-    }
-
-    public Graph() {
-    }
 
     public Graph(int rows, int columns) {
         this.numberOfVertexes = rows*columns;
@@ -35,14 +23,17 @@ public class Graph {
     }
     public Graph( int rows, int columns, double min, double max) {
         this.numberOfVertexes = rows*columns;
-        adjList = new ArrayList<ArrayList<Node>>(numberOfVertexes);
-        for(int i = 0; i < numberOfVertexes; i++){
-            adjList.add(new ArrayList<Node>());
-        }
         this.rows = rows;
         this.columns = columns;
         this.min = min;
         this.max = max;
+        adjList = new ArrayList<ArrayList<Node>>(numberOfVertexes);
+        for(int i = 0; i < numberOfVertexes; i++){
+            adjList.add(new ArrayList<Node>());
+        }
+        genEdges();
+
+
     }
     void addEdge(int source, int dest){
         if(max == 0 && min == 0){
@@ -62,6 +53,26 @@ public class Graph {
     }
 
    public void genEdges(){
+        /*for(int row = 0; row < rows; row++){
+            for(int col = 0; col < columns; col++ ){
+
+                    int nodeNum = row*columns + col;
+                    if(col != 0){// gen left edge
+                        System.out.print(nodeNum + " left ");
+                    }
+                    if(col != columns-1){// gen right edge
+                        System.out.print(nodeNum + " right ");
+                    }
+                    if(row != 0){ //gen upper
+                        System.out.print(nodeNum + "  upper ");
+                    }
+                    if(row != rows-1){ //gen lower
+                        System.out.print(nodeNum + " lower ");
+                    }
+                }
+            System.out.println();
+        }
+*/
         int lastNode = columns - 1;
         for ( int i = 0; i < numberOfVertexes - columns ; i++){
             if ( i == lastNode){
@@ -88,6 +99,13 @@ public class Graph {
             }
             System.out.println();
         }
+    }
+    public int[] getNeighboursNums(int nodeNum){
+        int[] nodesNums = new int[adjList.get(nodeNum).size()];
+        for(int i = 0; i < adjList.get(nodeNum).size();i++){
+            nodesNums[i] = adjList.get(nodeNum).get(i).numberOfN;
+        }
+        return nodesNums;
     }
 
     public int getNumberOfVertexes() {
