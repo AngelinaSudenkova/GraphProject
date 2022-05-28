@@ -1,12 +1,12 @@
 package com.logic.graph;
 import java.util.*;
-class Dijkstra {
+public class Dijkstra {
     int source;
     Graph graph;
     double[] distance;
     int[] previous;
 
-    Dijkstra(Graph graph){
+    public Dijkstra(Graph graph){
         this.graph = graph;
         this.distance = new double[graph.numberOfVertexes];
         this.previous = new int[graph.numberOfVertexes];

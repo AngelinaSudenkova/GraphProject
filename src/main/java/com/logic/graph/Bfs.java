@@ -2,10 +2,12 @@ package com.logic.graph;
 
 import java.util.PriorityQueue;
 
-class Bfs {
+public class Bfs {
     int source;
     Graph graph;
-    boolean isStronglyConnected;
+    public boolean isStronglyConnected;
+
+
     public Bfs(Graph graph,int source){
         this.source = source;
         this.graph = graph;

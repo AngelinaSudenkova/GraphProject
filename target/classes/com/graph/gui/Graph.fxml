@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CustomMenuItem?>
 <?import javafx.scene.control.Menu?>
@@ -12,11 +14,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:#000000" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.graph.gui.GraphController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:#000000" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.graph.gui.GraphController">
     <top>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <MenuBar style="-fx-background-color:#000000">
+                <MenuBar style="-fx-background-color: black; -fx-color: red;">
                     <menus>
                         <Menu mnemonicParsing="false" style="-fx-text-fill: #ffffffff  " text="Open">
                      <items>
@@ -64,7 +66,19 @@
                         <Menu mnemonicParsing="false" text="Help" />
                         <Menu mnemonicParsing="false" text="Clear">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Close" />
+                        <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
+                           <content>
+                              <AnchorPane prefHeight="100.0" prefWidth="100.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#clearArea" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </CustomMenuItem>
                             </items>
                         </Menu>
                     </menus>
@@ -72,11 +86,21 @@
             </children>
         </VBox>
     </top>
-    <center>
-        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="229.0" style="-fx-background-color:#8b00ff  " text="Check Integrity" textFill="WHITE" BorderPane.alignment="CENTER">
+   <bottom>
+        <Button mnemonicParsing="false" onAction="#checkIntegrity" prefHeight="32.0" prefWidth="229.0" style="-fx-background-color:#8b00ff  " text="Check Integrity" textFill="WHITE" BorderPane.alignment="BASELINE_CENTER">
             <font>
                 <Font name="Microsoft Sans Serif" size="15.0" />
             </font>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
         </Button>
-    </center>
+   </bottom>
+   <center>
+      <Canvas fx:id="mainCanvas" height="310.0" onMouseClicked="#mouseClicked" width="300.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="-200.0" />
+         </BorderPane.margin>
+      </Canvas>
+   </center>
 </BorderPane>
