@@ -38,7 +38,19 @@
                      </items></Menu>
                         <Menu mnemonicParsing="false" text="Save">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Choose directory" />
+                                <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
+                                    <content>
+                                        <AnchorPane prefHeight="100.0" prefWidth="100.0">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#saveFile" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                                    <font>
+                                                        <Font size="15.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </CustomMenuItem>
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Generate">

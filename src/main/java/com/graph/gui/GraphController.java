@@ -194,6 +194,26 @@ public class GraphController implements Initializable {
 
     @FXML
     void clearArea(ActionEvent event) {
+        graph = null;
+        if(gc == null){
+            System.out.println("Proszę wygenerować lub wybrać graf z pliku");
+            Stage dialogStage = new Stage();
+            dialogStage.setMinHeight(250);
+            dialogStage.setMinWidth(250);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+
+            Text text = new Text("Proszę wygenerować lub wybrać graf z pliku");
+            text.setStyle("-fx-font: 18 arial");
+            text.setFill(RED);
+            VBox vbox = new VBox(text);
+            vbox.setBackground(new Background(new BackgroundFill(Color.valueOf("#8b00ff"), CornerRadii.EMPTY, Insets.EMPTY)));
+            vbox.setAlignment(Pos.CENTER);
+            vbox.setPadding(new Insets(15));
+
+            dialogStage.setScene(new Scene(vbox));
+            dialogStage.show();
+            return;
+        }
         gc.clearRect(0,0, mainCanvas.getWidth(),mainCanvas.getHeight());
     }
     int numberOfClicked = 0;
@@ -243,7 +263,10 @@ public class GraphController implements Initializable {
                     }
 
                 }
-            }
+
+    public void saveFile(ActionEvent event) {
+    }
+}
 
 
 
