@@ -57,7 +57,7 @@ public class GraphController implements Initializable {
 
 
     @FXML
-    void generate(ActionEvent event) throws IOException {
+    void generate(ActionEvent event) {
         String del = "x";
         String[] tokens = sizeOfGraph.getText().split(del);
         int rows = parseInt(tokens[0]);
@@ -190,22 +190,7 @@ public class GraphController implements Initializable {
     void clearArea(ActionEvent event) {
         graph = null;
         if(gc == null){
-            System.out.println("Proszę wygenerować lub wybrać graf z pliku");
-            Stage dialogStage = new Stage();
-            dialogStage.setMinHeight(250);
-            dialogStage.setMinWidth(250);
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-
-            Text text = new Text("Proszę wygenerować lub wybrać graf z pliku");
-            text.setStyle("-fx-font: 18 arial");
-            text.setFill(RED);
-            VBox vbox = new VBox(text);
-            vbox.setBackground(new Background(new BackgroundFill(Color.valueOf("#8b00ff"), CornerRadii.EMPTY, Insets.EMPTY)));
-            vbox.setAlignment(Pos.CENTER);
-            vbox.setPadding(new Insets(15));
-
-            dialogStage.setScene(new Scene(vbox));
-            dialogStage.show();
+            PopupMessage.newMessage("Proszę wygenerować lub wybrać graf z pliku");
             return;
         }
         gc.clearRect(0,0, mainCanvas.getWidth(),mainCanvas.getHeight());
@@ -252,8 +237,7 @@ public class GraphController implements Initializable {
                     }}
                     } else if (numberOfClicked == 2) {
                         numberOfClicked = 0;
-                        System.out.println();
-                        System.out.println("Choose another two vertixes");
+                        PopupMessage.newMessage("Choose another two nodes.");
                     }
 
                 }
@@ -262,6 +246,10 @@ public class GraphController implements Initializable {
         FileChooser file = new FileChooser();
         File selectedFile = file.showSaveDialog(null);
         if(selectedFile != null){
+            if(graph == null){
+                PopupMessage.newMessage("Please create or read a graph.");
+                return;
+            }
             System.out.println(selectedFile.getAbsolutePath());
             GraphSave.save(graph,selectedFile.getAbsolutePath());
         }
@@ -274,6 +262,7 @@ public class GraphController implements Initializable {
             System.out.println(selectedFile.getAbsolutePath());
 
         }
+
 
 
     }
