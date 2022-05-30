@@ -80,61 +80,14 @@ public class GraphController implements Initializable {
         if (graph != null) {
             Bfs bfs = new Bfs(graph, 0);
             if (bfs.isStronglyConnected) {
-                System.out.println("Graf jest spójny");
-
-                Stage dialogStage = new Stage();
-                dialogStage.setMinHeight(250);
-                dialogStage.setMinWidth(250);
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-
-                Text text = new Text("Graf jest spójny");
-                text.setStyle("-fx-font: 24 arial");
-                text.setFill(WHITE);
-                VBox vbox = new VBox(text);
-                vbox.setBackground(new Background(new BackgroundFill(Color.valueOf("#8b00ff"), CornerRadii.EMPTY, Insets.EMPTY)));
-                vbox.setAlignment(Pos.CENTER);
-                vbox.setPadding(new Insets(15));
-
-                dialogStage.setScene(new Scene(vbox));
-                dialogStage.show();
+                PopupMessage.newMessage("Graph is strongly connected.","WHITE");
             } else {
-                System.out.println("Graf nie jest spójny");
-
-                Stage dialogStage = new Stage();
-                dialogStage.setMinHeight(250);
-                dialogStage.setMinWidth(250);
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-
-                Text text = new Text("Graf nie jest spójny");
-                text.setStyle("-fx-font: 24 arial");
-                text.setFill(WHITE);
-                VBox vbox = new VBox(text);
-                vbox.setBackground(new Background(new BackgroundFill(Color.valueOf("#8b00ff"), CornerRadii.EMPTY, Insets.EMPTY)));
-                vbox.setAlignment(Pos.CENTER);
-                vbox.setPadding(new Insets(15));
-
-                dialogStage.setScene(new Scene(vbox));
-                dialogStage.show();
+                PopupMessage.newMessage("Graph isn't strongly connected.","RED");
 
             }
         } else {
             //draw();
-            System.out.println("Proszę wygenerować lub wybrać graf z pliku");
-            Stage dialogStage = new Stage();
-            dialogStage.setMinHeight(250);
-            dialogStage.setMinWidth(250);
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-
-            Text text = new Text("Proszę wygenerować lub wybrać graf z pliku");
-            text.setStyle("-fx-font: 18 arial");
-            text.setFill(RED);
-            VBox vbox = new VBox(text);
-            vbox.setBackground(new Background(new BackgroundFill(Color.valueOf("#8b00ff"), CornerRadii.EMPTY, Insets.EMPTY)));
-            vbox.setAlignment(Pos.CENTER);
-            vbox.setPadding(new Insets(15));
-
-            dialogStage.setScene(new Scene(vbox));
-            dialogStage.show();
+            PopupMessage.newMessage("Please generate or read a graph.","RED");
         }
     }
 
@@ -190,7 +143,7 @@ public class GraphController implements Initializable {
     void clearArea(ActionEvent event) {
         graph = null;
         if(gc == null){
-            PopupMessage.newMessage("Proszę wygenerować lub wybrać graf z pliku");
+            PopupMessage.newMessage("Please generate or read a graph.","WHITE");
             return;
         }
         gc.clearRect(0,0, mainCanvas.getWidth(),mainCanvas.getHeight());
@@ -200,7 +153,8 @@ public class GraphController implements Initializable {
     int vertix2 = 0;
     @FXML
     void mouseClicked(MouseEvent event) {
-
+        if(graph == null)
+            return;
        double newx = event.getX();
        double newy = event.getY();
        //перенести в отдельные переменные и инициализировать их
@@ -237,7 +191,7 @@ public class GraphController implements Initializable {
                     }}
                     } else if (numberOfClicked == 2) {
                         numberOfClicked = 0;
-                        PopupMessage.newMessage("Choose another two nodes.");
+                        PopupMessage.newMessage("Choose another two nodes.","WHITE");
                     }
 
                 }
@@ -247,7 +201,7 @@ public class GraphController implements Initializable {
         File selectedFile = file.showSaveDialog(null);
         if(selectedFile != null){
             if(graph == null){
-                PopupMessage.newMessage("Please create or read a graph.");
+                PopupMessage.newMessage("Please create or read a graph.","RED");
                 return;
             }
             System.out.println(selectedFile.getAbsolutePath());
