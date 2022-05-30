@@ -2,10 +2,18 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:#000000" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.graph.gui.GraphController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CustomMenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:#000000" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.graph.gui.GraphController">
     <top>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <MenuBar style="-fx-background-color: black; -fx-color: red;">
@@ -13,12 +21,9 @@
                     <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
                         <content>
                             <AnchorPane prefHeight="100.0" prefWidth="100.0">
-                                <Button mnemonicParsing="false" onAction="#addFile"
-                                        style="-fx-background-color:#8b00ff" text="Open" textFill="WHITE"
-                                        AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0"
-                                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                <Button mnemonicParsing="false" onAction="#openFile" style="-fx-background-color:#8b00ff" text="Open" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
                                     <font>
-                                        <Font size="15.0"/>
+                                        <Font size="15.0" />
                                     </font>
                                 </Button>
                             </AnchorPane>
@@ -29,12 +34,9 @@
                     <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
                         <content>
                             <AnchorPane prefHeight="100.0" prefWidth="100.0">
-                                <Button mnemonicParsing="false" onAction="#saveFile"
-                                        style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE"
-                                        AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0"
-                                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                <Button mnemonicParsing="false" onAction="#saveFile" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
                                     <font>
-                                        <Font size="15.0"/>
+                                        <Font size="15.0" />
                                     </font>
                                 </Button>
                             </AnchorPane>
@@ -45,46 +47,49 @@
                     <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
                         <content>
                             <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                                <Text layoutX="5.0" layoutY="5.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="size nxm" x="60.0" y="10.0"/>
-                                <TextField fx:id="sizeOfGraph" AnchorPane.bottomAnchor="150.0"
-                                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                           AnchorPane.topAnchor="30.0"/>
-                                <Text layoutX="3.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="min weight" x="60.0" y="60.0"/>
-                                <TextField fx:id="minWeight" layoutX="10.0" layoutY="10.0"
-                                           AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0"
-                                           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0"/>
-                                <Text boundsType="LOGICAL_VERTICAL_CENTER" layoutX="5.0" layoutY="55.0"
-                                      strokeType="OUTSIDE" strokeWidth="0.0" text="max weight" x="60.0"
-                                      y="60.0"/>
-                                <TextField fx:id="maxWeight" layoutX="10.0" layoutY="10.0"
-                                           AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0"
-                                           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0"/>
-                                <Button mnemonicParsing="false" onAction="#generate"
-                                        style="-fx-background-color:#8b00ff" text="Generate"
-                                        textFill="WHITE" AnchorPane.bottomAnchor="0.0"
-                                        AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0"
-                                        AnchorPane.topAnchor="170.0">
+                                <Text layoutX="5.0" layoutY="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="size nxm" x="60.0" y="10.0" />
+                                <TextField fx:id="sizeOfGraph" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                                <Text layoutX="3.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min weight" x="60.0" y="60.0" />
+                                <TextField fx:id="minWeight" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+                                <Text boundsType="LOGICAL_VERTICAL_CENTER" layoutX="5.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="max weight" x="60.0" y="60.0" />
+                                <TextField fx:id="maxWeight" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0" />
+                                <Button mnemonicParsing="false" onAction="#generate" style="-fx-background-color:#8b00ff" text="Generate" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="170.0">
                                     <font>
-                                        <Font size="15.0"/>
+                                        <Font size="15.0" />
                                     </font>
                                 </Button>
                             </AnchorPane>
                         </content>
                     </CustomMenuItem>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help"/>
+                <Menu mnemonicParsing="false" text="Help">
+                    <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
+                        <content>
+                            <AnchorPane prefHeight="100.0" prefWidth="100.0">
+                                <Button mnemonicParsing="false" onAction="#clearArea" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Button>
+                            </AnchorPane>
+                            <AnchorPane prefHeight="100.0" prefWidth="100.0">
+                                <Button mnemonicParsing="false" onAction="#clearArea" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Button>
+                            </AnchorPane>
+                        </content>
+                    </CustomMenuItem>
+                </Menu>
+
                 <Menu mnemonicParsing="false" text="Clear">
                     <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
                         <content>
                             <AnchorPane prefHeight="100.0" prefWidth="100.0">
-                                <Button mnemonicParsing="false" onAction="#clearArea"
-                                        style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE"
-                                        AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0"
-                                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                <Button mnemonicParsing="false" onAction="#clearArea" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
                                     <font>
-                                        <Font size="15.0"/>
+                                        <Font size="15.0" />
                                     </font>
                                 </Button>
                             </AnchorPane>

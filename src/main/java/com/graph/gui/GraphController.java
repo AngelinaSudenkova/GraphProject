@@ -4,27 +4,21 @@ import com.logic.graph.Bfs;
 import com.logic.graph.Dijkstra;
 import com.logic.graph.Graph;
 import com.logic.graph.GraphReader;
+import com.logic.graph.GraphSave;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -169,7 +163,7 @@ public class GraphController implements Initializable {
                 count = i*graph.columns+j;
                 GraphCoordinates coord = new GraphCoordinates(moveToRight*j,moveToGround*i, j , i, count);
                 coordinates.add(coord);
-                 gc.fillOval(moveToRight*j, moveToGround*i, radius,radius);
+                gc.fillOval(moveToRight*j, moveToGround*i, radius,radius);
             }
         }
 //        for (GraphCoordinates g : coordinates){
@@ -265,6 +259,27 @@ public class GraphController implements Initializable {
                 }
 
     public void saveFile(ActionEvent event) {
+        FileChooser file = new FileChooser();
+        File selectedFile = file.showSaveDialog(null);
+        if(selectedFile != null){
+            System.out.println(selectedFile.getAbsolutePath());
+            GraphSave.save(graph,selectedFile.getAbsolutePath());
+        }
+    }
+
+    public void openFile(ActionEvent event) {
+        FileChooser file = new FileChooser();
+        File selectedFile = file.showOpenDialog(null);
+        if(selectedFile != null){
+            System.out.println(selectedFile.getAbsolutePath());
+
+        }
+
+
+    }
+
+    public void drawGraph() {
+
     }
 }
 
