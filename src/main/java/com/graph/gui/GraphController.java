@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 import static java.lang.Double.parseDouble;
@@ -37,13 +38,6 @@ public class GraphController implements Initializable {
     ArrayList<GraphCoordinates> coordinates = new ArrayList<>();
 
     @FXML
-    void addFile(ActionEvent event) {
-        File file = fileChooser.showOpenDialog(new Stage());
-        graph = new GraphReader(file.getAbsolutePath()).readGraph();
-        graph.printGraph(graph);
-    }
-
-    @FXML
     private TextField maxWeight;
 
     @FXML
@@ -54,6 +48,7 @@ public class GraphController implements Initializable {
 
     @FXML
     private Canvas mainCanvas = new Canvas(350,350);
+    private int[] path;
 
 
     @FXML
@@ -99,7 +94,6 @@ public class GraphController implements Initializable {
         double moveToGround = (double)300/graph.rows-1;
         double radius = 0.8*Math.sqrt(250*300/(2*Math.PI*graph.numberOfVertexes));
         int count;
-
         gc = mainCanvas.getGraphicsContext2D();
         gc.setFill(Color.valueOf("#8b00ff"));
         gc.clearRect(0,0, mainCanvas.getWidth(),mainCanvas.getHeight());
@@ -142,15 +136,16 @@ public class GraphController implements Initializable {
     @FXML
     void clearArea(ActionEvent event) {
         graph = null;
+        if(clickedNodes.size()!=0){
+            clickedNodes.clear();
+        }
         if(gc == null){
             PopupMessage.newMessage("Please generate or read a graph.","WHITE");
             return;
         }
         gc.clearRect(0,0, mainCanvas.getWidth(),mainCanvas.getHeight());
     }
-    int numberOfClicked = 0;
-    int vertix1 = 0;
-    int vertix2 = 0;
+    ArrayList<GraphCoordinates> clickedNodes = new ArrayList<>(2);
     @FXML
     void mouseClicked(MouseEvent event) {
         if(graph == null)
@@ -162,39 +157,64 @@ public class GraphController implements Initializable {
         double moveToRight = (double)300/graph.columns-1;
         double moveToGround = (double)300/graph.rows-1;
         double radius = 0.8*Math.sqrt(250*300/(2*Math.PI*graph.numberOfVertexes));
-
+        //Color PURPLE = Color.web("8b00ff ");
       // System.out.println("X: " + newx + "Y: " + newy);
       // System.out.println("Number of clicked vertixes" + numberOfClicked);
-    if (numberOfClicked == 0) {
-        for (GraphCoordinates g : coordinates) {
-            if (IsInside.isInside(newx, newy, g.x, g.y, radius)) {
-                numberOfClicked++;
-                gc.setFill(WHITE);
+        if (clickedNodes.size() == 0) {
+            for (GraphCoordinates node : coordinates) {
+                if (IsInside.isInside(newx, newy, node.x, node.y, radius)) {
 
-                vertix1 = g.numberOfVert;
-                gc.fillOval(g.x, g.y, radius, radius);
-                System.out.println("Vertex1 is " + vertix1);
-                return;
-            } }  } else if (numberOfClicked == 1) {
-                for (GraphCoordinates gr : coordinates) {
-                    if (IsInside.isInside(newx, newy, gr.x, gr.y, radius)) {
-                        numberOfClicked++;
-                        gc.setFill(WHITE);
-                        System.out.println("You clicked a vertex number: " + gr.numberOfVert);
-                        vertix2 = gr.numberOfVert;
-                        gc.fillOval(gr.x, gr.y, radius, radius);
-                        System.out.println("Vertex2 is " + vertix2);
-
-                        Dijkstra dijkstra = new Dijkstra(graph);
-                        dijkstra.drawPath(vertix1, vertix2);
-                        return;
-                    }}
-                    } else if (numberOfClicked == 2) {
-                        numberOfClicked = 0;
-                        PopupMessage.newMessage("Choose another two nodes.","WHITE");
-                    }
-
+                    gc.setFill(WHITE);
+                    clickedNodes.add(node);
+                    gc.fillOval(node.x, node.y, radius, radius);
+                    break;
                 }
+            }
+        }
+        else if (clickedNodes.size() == 1) {
+            for (GraphCoordinates node : coordinates) {
+                if (IsInside.isInside(newx, newy, node.x, node.y, radius)) {
+                    if(clickedNodes.contains(node)){
+                        gc.setFill(rgb(139, 0, 255));
+                        gc.fillOval(node.x, node.y, radius, radius);
+                        clickedNodes.remove(node);
+                        break;
+                    }
+                    gc.setFill(WHITE);
+                    clickedNodes.add(node);
+                    gc.fillOval(node.x, node.y, radius, radius);
+                    Dijkstra dijkstra = new Dijkstra(graph);
+                    int start = clickedNodes.get(0).numberOfVert;
+                    int end = clickedNodes.get(1).numberOfVert;
+                    dijkstra.calculate(start);
+                    this.path = dijkstra.reconstructPath(start,end);
+                    drawPath(path,"white",radius,moveToGround,moveToRight);
+                    String message= "Cost of this path is :"+ dijkstra.getCost(end);
+                    PopupMessage.newMessage(message,"WHITE");
+                    break;
+                }
+            }
+        }
+        else if (clickedNodes.size() == 2) {
+            for (GraphCoordinates node : coordinates) {
+                if (IsInside.isInside(newx, newy, node.x, node.y, radius)) {
+                    if(clickedNodes.contains(node)){
+                        gc.setFill(rgb(139, 0, 255));
+                        gc.fillOval(node.x, node.y, radius, radius);
+                        System.out.println("tak");
+                        clickedNodes.remove(node);
+                        return;
+                    }
+                    drawPath(path,"purple",radius,moveToGround,moveToRight);
+                    clickedNodes.clear();
+                    clickedNodes.add(node);
+                    gc.setFill(WHITE);
+                    gc.fillOval(node.x, node.y, radius, radius);
+                    break;
+                }
+            }
+        }
+    }
 
     public void saveFile(ActionEvent event) {
         FileChooser file = new FileChooser();
@@ -220,7 +240,36 @@ public class GraphController implements Initializable {
 
 
     }
-
+    public void drawPath(int[] path, String color,double radius,double height,double width){
+        int nodeNum,col,row,diff;
+        for(int i = 0; i< path.length; i++ ){
+            nodeNum = path[i];
+            col = nodeNum % graph.columns;
+            row = nodeNum / graph.columns;
+            if(color.equals("white")) {
+                gc.setFill(WHITE);
+            }
+            else if (color.equals("purple")) {
+                gc.setFill(Color.rgb(139, 0, 255));
+            }
+            gc.fillOval(col *width , row * height, radius, radius);
+            if(i == path.length-1)
+                break;
+            diff = path[i] - path[i+1];
+            if(diff == graph.columns){
+                gc.fillRect(width*col+radius*0.4, height*(row-1)+radius*0.5, radius*0.25, height);
+            }
+            if(diff == -graph.columns){
+                gc.fillRect(width*col+radius*0.4, height*row+radius*0.5, radius*0.25, height);
+            }
+            if(diff == 1){
+                gc.fillRect(width*(col-1)+radius*0.5, height*row+radius*0.5, width, radius*0.25);
+            }
+            if(diff == -1){
+                gc.fillRect(width*col+radius*0.5, height*row+radius*0.5, width, radius*0.25);
+            }
+        }
+    }
     public void drawGraph() {
 
     }
