@@ -49,7 +49,8 @@ public class GraphController implements Initializable {
     @FXML
     private Canvas mainCanvas = new Canvas(350,350);
     private int[] path;
-
+    public boolean isPathDrawn = false;
+    public boolean isGraphDrawn = false;
 
     @FXML
     void generate(ActionEvent event) {
@@ -88,12 +89,13 @@ public class GraphController implements Initializable {
 
 
     public void draw(){
-
+        isGraphDrawn = true;
         int numberOfEdges = (graph.columns-1)*(graph.rows-1);
         double moveToRight = (double)300/graph.columns-1;
         double moveToGround = (double)300/graph.rows-1;
         double radius = 0.8*Math.sqrt(250*300/(2*Math.PI*graph.numberOfVertexes));
         int count;
+
         gc = mainCanvas.getGraphicsContext2D();
         gc.setFill(Color.valueOf("#8b00ff"));
         gc.clearRect(0,0, mainCanvas.getWidth(),mainCanvas.getHeight());
@@ -139,10 +141,11 @@ public class GraphController implements Initializable {
         if(clickedNodes.size()!=0){
             clickedNodes.clear();
         }
-        if(gc == null){
+        if(gc == null || isGraphDrawn == false){
             PopupMessage.newMessage("Please generate or read a graph.","WHITE");
             return;
         }
+        isGraphDrawn = false;
         gc.clearRect(0,0, mainCanvas.getWidth(),mainCanvas.getHeight());
     }
     ArrayList<GraphCoordinates> clickedNodes = new ArrayList<>(2);
@@ -160,6 +163,9 @@ public class GraphController implements Initializable {
         //Color PURPLE = Color.web("8b00ff ");
       // System.out.println("X: " + newx + "Y: " + newy);
       // System.out.println("Number of clicked vertixes" + numberOfClicked);
+        if(isPathDrawn == true){
+
+        }
         if (clickedNodes.size() == 0) {
             for (GraphCoordinates node : coordinates) {
                 if (IsInside.isInside(newx, newy, node.x, node.y, radius)) {
@@ -189,6 +195,7 @@ public class GraphController implements Initializable {
                     dijkstra.calculate(start);
                     this.path = dijkstra.reconstructPath(start,end);
                     drawPath(path,"white",radius,moveToGround,moveToRight);
+                    isPathDrawn = true;
                     String message= "Cost of this path is :"+ dijkstra.getCost(end);
                     PopupMessage.newMessage(message,"WHITE");
                     break;
@@ -199,13 +206,14 @@ public class GraphController implements Initializable {
             for (GraphCoordinates node : coordinates) {
                 if (IsInside.isInside(newx, newy, node.x, node.y, radius)) {
                     if(clickedNodes.contains(node)){
-                        gc.setFill(rgb(139, 0, 255));
-                        gc.fillOval(node.x, node.y, radius, radius);
-                        System.out.println("tak");
+                        drawPath(path,"purple",radius,moveToGround,moveToRight);
                         clickedNodes.remove(node);
+                        gc.setFill(WHITE);
+                        gc.fillOval(clickedNodes.get(0).x,clickedNodes.get(0).y, radius, radius);
                         return;
                     }
                     drawPath(path,"purple",radius,moveToGround,moveToRight);
+                    isPathDrawn = false;
                     clickedNodes.clear();
                     clickedNodes.add(node);
                     gc.setFill(WHITE);
@@ -218,23 +226,21 @@ public class GraphController implements Initializable {
 
     public void saveFile(ActionEvent event) {
         FileChooser file = new FileChooser();
+        if(graph == null || isGraphDrawn == false){
+            PopupMessage.newMessage("Please create or read a graph.","RED");
+            return;
+        }
         File selectedFile = file.showSaveDialog(null);
-        if(selectedFile != null){
-            if(graph == null){
-                PopupMessage.newMessage("Please create or read a graph.","RED");
-                return;
-            }
             System.out.println(selectedFile.getAbsolutePath());
             GraphSave.save(graph,selectedFile.getAbsolutePath());
         }
-    }
+
 
     public void openFile(ActionEvent event) {
         FileChooser file = new FileChooser();
         File selectedFile = file.showOpenDialog(null);
         if(selectedFile != null){
             System.out.println(selectedFile.getAbsolutePath());
-
         }
 
 
