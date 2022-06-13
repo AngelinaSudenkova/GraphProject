@@ -142,7 +142,7 @@ public class GraphController implements Initializable {
             clickedNodes.clear();
         }
         if(gc == null || isGraphDrawn == false){
-            PopupMessage.newMessage("Please generate or read a graph.","WHITE");
+            PopupMessage.newMessage("Please generate or read a graph.","RED");
             return;
         }
         isGraphDrawn = false;
@@ -240,7 +240,10 @@ public class GraphController implements Initializable {
         FileChooser file = new FileChooser();
         File selectedFile = file.showOpenDialog(null);
         if(selectedFile != null){
-            System.out.println(selectedFile.getAbsolutePath());
+            GraphReader readGraph = new GraphReader(selectedFile.getAbsolutePath());
+            graph = readGraph.readGraph();
+            draw();
+
         }
 
 
