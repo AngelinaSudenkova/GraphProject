@@ -10,7 +10,7 @@ public class Graph {
     public double min;
     public double max;
 
-    ArrayList<ArrayList<Node>> adjList;
+   public ArrayList<ArrayList<Node>> adjList;
 
     public Graph(int rows, int columns) {
         this.numberOfVertexes = rows*columns;
