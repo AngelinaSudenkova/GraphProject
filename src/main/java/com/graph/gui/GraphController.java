@@ -57,12 +57,17 @@ public class GraphController implements Initializable {
     void generate(ActionEvent event) {
         String del = "x";
         String[] tokens = sizeOfGraph.getText().split(del);
+        if(isGraphDrawn){
+            coordinates.clear();
+            clearArea();
+        }
         int rows = parseInt(tokens[0]);
         int columns = parseInt(tokens[1]);
         double max = parseDouble(maxWeight.getText());
         double min = parseDouble(minWeight.getText());
         graph = new Graph(rows, columns, min, max);
         graph.printGraph(graph);
+
         draw();
     }
 
@@ -138,8 +143,9 @@ public class GraphController implements Initializable {
 
 
     @FXML
-    void clearArea(ActionEvent event) {
+    void clearArea() {
         graph = null;
+
         if(clickedNodes.size()!=0){
             clickedNodes.clear();
         }
