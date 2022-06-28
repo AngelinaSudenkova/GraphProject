@@ -22,6 +22,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
@@ -51,25 +53,59 @@ public class GraphController implements Initializable {
 
     @FXML
     void generate(ActionEvent event) {
+        if(sizeOfGraph.getText().equals("") ){
+            ErrorWindow errorWindow = new ErrorWindow("Please fill the graph size field.");
+            return;
+        }
+        if(minWeight.getText().equals("") ){
+            ErrorWindow errorWindow = new ErrorWindow("Please fill the min field.");
+            return;
+        }
+        if(maxWeight.getText().equals("")){
+            ErrorWindow errorWindow = new ErrorWindow("Please fill the max field.");
+            return;
+        }
+        Pattern patternWithDot = Pattern.compile("\\d+\\.\\d+");
+        Pattern patternWithoutDot = Pattern.compile("\\d+");
+        Matcher formatCheckerWithoutDot = patternWithoutDot.matcher(minWeight.getText());
+        Matcher formatCheckerWithDot = patternWithDot.matcher(minWeight.getText());
+        double min,max;
+        if(formatCheckerWithDot.matches() || formatCheckerWithoutDot.matches()){
+            min = parseDouble(minWeight.getText());
+        }
+        else{
+            ErrorWindow errorWindow = new ErrorWindow("Please input correct min value, for example:\n 1.3.");
+            return;
+        }
+        formatCheckerWithDot = patternWithDot.matcher(maxWeight.getText());
+        formatCheckerWithoutDot = patternWithoutDot.matcher(maxWeight.getText());
+        if(formatCheckerWithDot.matches() || formatCheckerWithoutDot.matches()){
+            max = parseDouble(maxWeight.getText());
+        }
+        else{
+            ErrorWindow errorWindow = new ErrorWindow("Please input correct max value, for example:\n 1.3.");
+            return;
+        }
         if(!isGreater(minWeight,maxWeight)){
             ErrorWindow errorWindow = new ErrorWindow("Please put the valid numbers,\n min should be less then max");
             return;
         }
         try{
-        String del = "x";
-        String[] tokens = sizeOfGraph.getText().split(del);
-        if(isGraphDrawn){
-            coordinates.clear();
-            clearArea();
-        }
-        int rows = parseInt(tokens[0]);
-        int columns = parseInt(tokens[1]);
-        double max = parseDouble(maxWeight.getText());
-        double min = parseDouble(minWeight.getText());
-        graph = new Graph(rows, columns, min, max);
-        graph.printGraph(graph);
+            String del = "x";
+            System.out.println(sizeOfGraph.getText());
+            String[] tokens = sizeOfGraph.getText().split(del);
+            if(isGraphDrawn){
+                coordinates.clear();
+                clearArea();
+            }
+            int rows = parseInt(tokens[0]);
+            int columns = parseInt(tokens[1]);
+            graph = new Graph(rows, columns, min, max);
+            graph.printGraph(graph);
 
-        draw(); } catch (NumberFormatException e){
+            draw();
+        }
+        catch (Exception e){
             ErrorWindow errorFormat = new ErrorWindow("Please put number of vertices and columns " +
                     "as in example \n \"10x10\" ");
         }
@@ -186,7 +222,7 @@ public class GraphController implements Initializable {
         if(clickedNodes.size()!=0){
             clickedNodes.clear();
         }
-        if(gc == null || isGraphDrawn == false){
+        if(gc == null || !isGraphDrawn){
             PopupMessage.newMessage("Please generate or read a graph.","RED");
             return;
         }
@@ -208,9 +244,7 @@ public class GraphController implements Initializable {
         //Color PURPLE = Color.web("8b00ff ");
       // System.out.println("X: " + newx + "Y: " + newy);
       // System.out.println("Number of clicked vertixes" + numberOfClicked);
-        if(isPathDrawn == true){
 
-        }
         if (clickedNodes.size() == 0) {
             for (GraphCoordinates node : coordinates) {
                 if (IsInside.isInside(newx, newy, node.x, node.y, radius)) {
@@ -286,6 +320,10 @@ public class GraphController implements Initializable {
             FileChooser file = new FileChooser();
             File selectedFile = file.showOpenDialog(null);
             if(selectedFile != null){
+                if(isGraphDrawn){
+                    coordinates.clear();
+                    clearArea();
+                }
                 GraphReader readGraph = new GraphReader(selectedFile.getAbsolutePath());
                 graph = readGraph.readGraph();
                 drawFile();
