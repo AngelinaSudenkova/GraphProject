@@ -62,26 +62,6 @@
                         </content>
                     </CustomMenuItem>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
-                        <content>
-                            <AnchorPane prefHeight="100.0" prefWidth="100.0">
-                                <Button mnemonicParsing="false" onAction="#clearArea" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font>
-                                </Button>
-                            </AnchorPane>
-                            <AnchorPane prefHeight="100.0" prefWidth="100.0">
-                                <Button mnemonicParsing="false" onAction="#clearArea" style="-fx-background-color:#8b00ff" text="Clear" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font>
-                                </Button>
-                            </AnchorPane>
-                        </content>
-                    </CustomMenuItem>
-                </Menu>
 
                 <Menu mnemonicParsing="false" text="Clear">
                     <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
